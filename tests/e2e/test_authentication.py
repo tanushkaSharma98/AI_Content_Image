@@ -1,5 +1,6 @@
 import pytest
 import time
+import re
 from playwright.async_api import expect
 
 class TestAuthenticationE2E:
@@ -12,7 +13,7 @@ class TestAuthenticationE2E:
         await page.goto("http://localhost:3000/register")
         
         # Verify we're on the registration page
-        await expect(page).to_have_title(/.*Register.*|.*Sign Up.*/)
+        await expect(page).to_have_title(re.compile(r".*Register.*|.*Sign Up.*"))
         
         # Fill registration form
         await page.fill('input[name="username"]', test_user_data["username"])
@@ -43,7 +44,7 @@ class TestAuthenticationE2E:
         await page.goto("http://localhost:3000/login")
         
         # Verify we're on the login page
-        await expect(page).to_have_title(/.*Login.*|.*Sign In.*/)
+        await expect(page).to_have_title(re.compile(r".*Login.*|.*Sign In.*"))
         
         # Fill login form
         await page.fill('input[name="email"]', test_user_data["email"])

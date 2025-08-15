@@ -188,6 +188,9 @@ async def update_history_item(
         )
     
     # Update allowed fields
+    if update_data.prompt is not None:
+        history_item.prompt = update_data.prompt
+    
     if update_data.result_title is not None:
         history_item.result_title = update_data.result_title
     

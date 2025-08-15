@@ -84,8 +84,7 @@ async def browser():
             headless=headless,
             args=["--no-sandbox", "--disable-setuid-sandbox"]
         )
-        yield browser
-        await browser.close()
+        return browser
 
 @pytest.fixture
 async def page(browser):
@@ -95,38 +94,7 @@ async def page(browser):
     # Set viewport size
     await page.set_viewport_size({"width": 1280, "height": 720})
     
-    # Add test utilities
-    await page.add_init_script("""
-        window.testUtils = {
-            waitForElement: async (selector, timeout = 5000) => {
-                const start = Date.now();
-                while (Date.now() - start < timeout) {
-                    const element = document.querySelector(selector);
-                    if (element) return element;
-                    await new Promise(resolve => setTimeout(resolve, 100));
-                }
-                throw new Error(`Element ${selector} not found within ${timeout}ms`);
-            },
-            waitForText: async (text, timeout = 5000) => {
-                const start = Date.now();
-                while (Date.now() - start < timeout) {
-                    const element = document.evaluate(
-                        `//*[contains(text(), '${text}')]`,
-                        document,
-                        null,
-                        XPathResult.FIRST_ORDERED_NODE_TYPE,
-                        null
-                    ).singleNodeValue;
-                    if (element) return element;
-                    await new Promise(resolve => setTimeout(resolve, 100));
-                }
-                throw new Error(`Text "${text}" not found within ${timeout}ms`);
-            }
-        };
-    """)
-    
-    yield page
-    await page.close()
+    return page
 
 @pytest.fixture
 async def authenticated_page(page):
@@ -147,7 +115,7 @@ async def authenticated_page(page):
     yield page
 
 @pytest.fixture
-async def test_user_data():
+def test_user_data():
     """Test user data for E2E tests."""
     return {
         "email": TestConfig.TEST_USER_EMAIL,

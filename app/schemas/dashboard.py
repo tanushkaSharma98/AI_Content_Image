@@ -21,6 +21,7 @@ class HistoryResponse(BaseModel):
 
 class HistoryUpdate(BaseModel):
     """Schema for updating history items"""
+    prompt: Optional[str] = None
     result_title: Optional[str] = None
     result_summary: Optional[str] = None
     is_hidden: Optional[bool] = None
