@@ -10,12 +10,12 @@ class Settings(BaseSettings):
     jwt_algorithm: str = "HS256"
     access_token_expire_minutes: int = 10
     
-    # MCP Server URLs with correct API keys
-    mcp_tavily_url: str = "https://server.smithery.ai/@Jeetanshu18/tavily-mcp/mcp?api_key=f1f6c5a8-b3d0-4815-81c3-8fa253314e6b&profile=cautious-peafowl-9gzmmK"
+    # MCP Server URLs with correct API keys (profile removed for Tavily)
+    mcp_tavily_url: str = "https://server.smithery.ai/@Jeetanshu18/tavily-mcp/mcp?api_key=f1f6c5a8-b3d0-4815-81c3-8fa253314e6b"
     mcp_flux_url: str = "https://server.smithery.ai/@falahgs/flux-imagegen-mcp-server/mcp?api_key=f1f6c5a8-b3d0-4815-81c3-8fa253314e6b"
 
     # Optional API Keys
-    mcp_tavily_api_key: Optional[str] = "f1f6c5a8-b3d0-4815-81c3-8fa253314e6b"
+    mcp_tavily_api_key: Optional[str] = "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"
     mcp_flux_api_token: Optional[str] = "f1f6c5a8-b3d0-4815-81c3-8fa253314e6b"
     
     # App Settings

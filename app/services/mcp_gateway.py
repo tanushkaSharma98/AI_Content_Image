@@ -8,8 +8,9 @@ from mcp.shared.exceptions import McpError
 class MCPGatewayError(Exception):
     pass
 
-# MCP server URLs
-TAVILY_MCP_URL = "https://server.smithery.ai/@Jeetanshu18/tavily-mcp/mcp?api_key=1096430b-be20-4c9a-8b78-3351cc188776&profile=shaky-stingray-GvJFoQ"
+# MCP server URLs - Updated with new API keys
+# Using the new Tavily API key for the Tavily service (profile removed)
+TAVILY_MCP_URL = "https://server.smithery.ai/@Jeetanshu18/tavily-mcp/mcp?api_key=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"
 FLUX_MCP_URL = "https://server.smithery.ai/@falahgs/flux-imagegen-mcp-server/mcp?api_key=f1f6c5a8-b3d0-4815-81c3-8fa253314e6b"
 
 async def _call_mcp_tool_sdk(server_url: str, tool_name: str, arguments: Dict[str, Any]) -> Dict[str, Any]:
@@ -101,9 +102,19 @@ async def _call_mcp_tool(server_url: str, tool_name: str, arguments: Dict[str, A
         raise MCPGatewayError(f"Tool call failed: {e}")
 
 async def call_tavily_search(query: str) -> Dict[str, Any]:
-    """Call Tavily MCP server for web search - DYNAMIC QUERY"""
+    """Call Tavily API directly for web search"""
     print(f"DEBUG: Calling Tavily search with dynamic query: {query}")
-    return await _call_mcp_tool(TAVILY_MCP_URL, "tavily-search", {"query": query})
+    try:
+        # Use direct Tavily API service
+        from app.services.tavily_service import tavily_service
+        return await tavily_service.search(query)
+    except Exception as e:
+        print(f"DEBUG: Tavily direct API failed: {e}")
+        print("DEBUG: Falling back to fallback search service...")
+        
+        # Import and use fallback service
+        from app.services.search_service import fallback_search_service
+        return await fallback_search_service.search_with_wikipedia(query)
 
 async def call_flux_generate_image_url(prompt: str) -> Dict[str, Any]:
     """Call Flux MCP server for image generation"""
