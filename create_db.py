@@ -58,8 +58,8 @@ JWT_ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
 
 # MCP Server URLs
-MCP_TAVILY_URL=https://smithery.ai/server/@Jeetanshu18/tavily-mcp
-MCP_FLUX_URL=https://smithery.ai/server/@falahgs/flux-imagegen-mcp-server
+MCP_TAVILY_URL=https://server.smithery.ai/@Jeetanshu18/tavily-mcp/mcp
+MCP_FLUX_URL=https://server.smithery.ai/@falahgs/flux-imagegen-mcp-server/mcp
 
 # App Settings
 DEBUG=True
